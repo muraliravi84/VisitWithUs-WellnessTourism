@@ -51,13 +51,14 @@ jobs:
       run: |
         pip install huggingface_hub
         python src/deploy.py
-
+        
     - name: Deploy to Hugging Face Space (Docker SDK)
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
         pip install huggingface_hub
-        huggingface-cli upload docker/Dockerfile Murali0606/WellnessTourism --repo-type=space --token $HF_TOKEN
-        huggingface-cli upload app.py Murali0606/WellnessTourism --repo-type=space --token $HF_TOKEN
-        huggingface-cli upload requirements.txt Murali0606/WellnessTourism --repo-type=space --token $HF_TOKEN
-        huggingface-cli upload src Murali0606/WellnessTourism --repo-type=space --token $HF_TOKEN
+        huggingface-cli upload docker/Dockerfile --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
+        huggingface-cli upload docker/app.py --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
+        huggingface-cli upload docker/requirements.txt --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
+        huggingface-cli upload src --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
+
