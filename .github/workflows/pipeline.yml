@@ -56,9 +56,8 @@ jobs:
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
-        pip install huggingface_hub
-        huggingface-cli upload docker/Dockerfile --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
-        huggingface-cli upload docker/app.py --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
-        huggingface-cli upload docker/requirements.txt --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
-        huggingface-cli upload src --repo-id Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
-
+        pip install "huggingface_hub[cli]"
+        huggingface-cli upload Murali0606/WellnessTourism docker/Dockerfile docker/Dockerfile --repo-type space --token $HF_TOKEN
+        huggingface-cli upload Murali0606/WellnessTourism docker/app.py docker/app.py --repo-type space --token $HF_TOKEN
+        huggingface-cli upload Murali0606/WellnessTourism docker/requirements.txt docker/requirements.txt --repo-type space --token $HF_TOKEN
+        huggingface-cli upload src --repo Murali0606/WellnessTourism --repo-type space --token $HF_TOKEN
