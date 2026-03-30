@@ -25,12 +25,20 @@ jobs:
         pip install -r docker/requirements.txt
 
     - name: Run preprocessing
-      run: python src/preprocessing.py
-
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      run: |
+        pip install huggingface_hub
+        python src/preprocessing.py
+        
     - name: Train model
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: python src/train.py
-
+      
     - name: Evaluate model
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: python src/evaluate.py
 
     - name: Build Docker image
