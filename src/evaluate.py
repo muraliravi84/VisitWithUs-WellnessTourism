@@ -39,8 +39,7 @@ def main():
     # Save metrics to file (for CI/CD logs)
     with open("models/evaluation_metrics.txt", "w") as f:
         for k, v in metrics.items():
-            f.write(f"{k}: {v:.4f}
-") # Corrected line
+            f.write(f"{k}: {v:.4f}")
 
     print("Evaluation complete. Metrics saved to models/evaluation_metrics.txt")
 
