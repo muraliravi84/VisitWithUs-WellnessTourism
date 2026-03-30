@@ -39,7 +39,8 @@ with st.form("customer_form"):
     NumberOfFollowups = st.number_input("NumberOfFollowups", min_value=0, max_value=10, value=2)
     DurationOfPitch = st.number_input("Duration of Pitch (minutes)", min_value=1, max_value=60, value=15)
 
-    submitted = st.form("customer_form").form_submit_button("Predict")
+    #  Submit button must be inside the form block
+    submitted = st.form_submit_button("Predict")
 
 if submitted:
     # Build dataframe with same schema as training
@@ -66,6 +67,8 @@ if submitted:
 
     prediction = model.predict(input_data)[0]
     if prediction == 1:
-        st.success(" This customer is likely to purchase the tourism package!")
+        st.success("This customer is likely to purchase the tourism package!")
     else:
-        st.warning(" This customer is unlikely to purchase the tourism package.")
+        st.warning("This customer is unlikely to purchase the tourism package.")
+
+
