@@ -73,7 +73,7 @@ if submitted:
     prediction = (proba[1] > 0.5).astype(int)  # threshold at 50%
 
     st.write(f"Probability of purchase: {proba[1]:.2f}")
-    
+
     prediction = model.predict(input_data)[0]
     if prediction == 1:
         st.success("This customer is likely to purchase the tourism package!")
