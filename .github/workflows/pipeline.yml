@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r docker/requirements.txt
+        pip install -r requirements.txt
 
     - name: Run preprocessing
       env:
@@ -43,7 +43,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t wellness-tourism:latest -f docker/Dockerfile .
+        docker build -t wellness-tourism:latest -f Dockerfile .
 
     - name: Push model to Hugging Face Hub
       env:
@@ -57,7 +57,7 @@ jobs:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
         pip install "huggingface_hub[cli]"
-        huggingface-cli upload Murali0606/WellnessTourism docker/Dockerfile Dockerfile --repo-type space --token $HF_TOKEN
-        huggingface-cli upload Murali0606/WellnessTourism docker/app.py app.py --repo-type space --token $HF_TOKEN
-        huggingface-cli upload Murali0606/WellnessTourism docker/requirements.txt requirements.txt --repo-type space --token $HF_TOKEN
+        huggingface-cli upload Murali0606/WellnessTourism Dockerfile Dockerfile --repo-type space --token $HF_TOKEN
+        huggingface-cli upload Murali0606/WellnessTourism app.py app.py --repo-type space --token $HF_TOKEN
+        huggingface-cli upload Murali0606/WellnessTourism requirements.txt requirements.txt --repo-type space --token $HF_TOKEN
         huggingface-cli upload Murali0606/WellnessTourism src src --repo-type space --token $HF_TOKEN
