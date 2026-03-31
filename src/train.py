@@ -48,7 +48,7 @@ def main():
     # Random Forest pipeline
     model = Pipeline(steps=[
         ('preprocessor', preprocessor),
-        ('classifier', RandomForestClassifier(n_estimators=200, random_state=42))
+        ('classifier', RandomForestClassifier(n_estimators=200, random_state=42, class_weight="balanced"))
     ])
 
     print(" Training Random Forest model...")

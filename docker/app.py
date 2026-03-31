@@ -68,6 +68,12 @@ if submitted:
   #  Drop accidental index column if present
     input_data = input_data.drop(columns=["Unnamed: 0"], errors="ignore")
 
+    # Get probabilities
+    proba = model.predict_proba(input_data)[0]
+    prediction = (proba[1] > 0.5).astype(int)  # threshold at 50%
+
+    st.write(f"Probability of purchase: {proba[1]:.2f}")
+    
     prediction = model.predict(input_data)[0]
     if prediction == 1:
         st.success("This customer is likely to purchase the tourism package!")
