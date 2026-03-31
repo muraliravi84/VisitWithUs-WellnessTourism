@@ -22,6 +22,9 @@ def main():
     # Handle missing values
     df.fillna(method='ffill', inplace=True)
 
+    # Drop accidental index column if present
+    df = df.drop(columns=["Unnamed: 0"], errors="ignore")
+
     # 3. Train/test split
     print(" Splitting dataset...")
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=42)

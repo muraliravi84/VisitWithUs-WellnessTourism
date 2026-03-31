@@ -65,6 +65,9 @@ if submitted:
         "DurationOfPitch": DurationOfPitch
     }])
 
+  #  Drop accidental index column if present
+    input_data = input_data.drop(columns=["Unnamed: 0"], errors="ignore")
+
     prediction = model.predict(input_data)[0]
     if prediction == 1:
         st.success("This customer is likely to purchase the tourism package!")

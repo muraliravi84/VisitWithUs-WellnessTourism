@@ -17,6 +17,9 @@ MODEL_REPO = "Murali0606/wellness_tourism_model"
 def main():
     print("Loading train/test datasets from Hugging Face...")
     dataset = load_dataset(DATASET_REPO)
+    train_df = dataset['train'].to_pandas().drop(columns=["Unnamed: 0"], errors="ignore")
+    test_df = dataset['test'].to_pandas().drop(columns=["Unnamed: 0"], errors="ignore")
+
     train_df = dataset['train'].to_pandas()
     test_df = dataset['test'].to_pandas()
 

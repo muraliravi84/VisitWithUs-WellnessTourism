@@ -12,6 +12,9 @@ def main():
     dataset = load_dataset(DATASET_REPO)
     test_df = dataset['test'].to_pandas()
 
+    # Drop accidental index column if present
+    test_df = test_df.drop(columns=["Unnamed: 0"], errors="ignore")
+
     # Features and target
     X_test = test_df.drop(columns=['ProdTaken'])
     y_test = test_df['ProdTaken']
