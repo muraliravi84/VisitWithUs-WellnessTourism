@@ -1,14 +1,14 @@
 
 import pandas as pd
 from datasets import load_dataset
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 import joblib
 import os
+import json
 
 # Hugging Face dataset repo
 DATASET_REPO = "Murali0606/wellness_tourism_dataset"
@@ -19,9 +19,6 @@ def main():
     dataset = load_dataset(DATASET_REPO)
     train_df = dataset['train'].to_pandas().drop(columns=["Unnamed: 0"], errors="ignore")
     test_df = dataset['test'].to_pandas().drop(columns=["Unnamed: 0"], errors="ignore")
-
-    train_df = dataset['train'].to_pandas()
-    test_df = dataset['test'].to_pandas()
 
     # Features and target
     X_train = train_df.drop(columns=['ProdTaken'])
@@ -45,13 +42,20 @@ def main():
         ]
     )
 
+    # Random Forest parameters
+    rf_params = {
+        "n_estimators": 200,
+        "random_state": 42,
+        "class_weight": "balanced"
+    }
+
     # Random Forest pipeline
     model = Pipeline(steps=[
         ('preprocessor', preprocessor),
-        ('classifier', RandomForestClassifier(n_estimators=200, random_state=42, class_weight="balanced"))
+        ('classifier', RandomForestClassifier(**rf_params))
     ])
 
-    print(" Training Random Forest model...")
+    print("Training Random Forest model...")
     model.fit(X_train, y_train)
 
     # Evaluate
@@ -62,9 +66,9 @@ def main():
         "recall": recall_score(y_test, preds),
         "f1": f1_score(y_test, preds)
     }
-    print(f" Evaluation: {metrics}")
+    print(f"Evaluation: {metrics}")
 
-  # Log experiment parameters and metrics
+    # Log experiment parameters and metrics
     experiment_log = {
         "model": "RandomForestClassifier",
         "parameters": rf_params,
@@ -73,12 +77,12 @@ def main():
     os.makedirs("logs", exist_ok=True)
     with open("logs/experiment_log.json", "w") as f:
         json.dump(experiment_log, f, indent=4)
-    print("Experiment parameters and metrics logged to logs/experiment_log.json") 
+    print("Experiment parameters and metrics logged to logs/experiment_log.json")
 
     # Save best model locally
     os.makedirs("models", exist_ok=True)
     joblib.dump(model, "models/random_forest.pkl")
-    print(" Random Forest model saved locally")
+    print("Random Forest model saved locally")
 
     # Push to Hugging Face Model Hub
     from huggingface_hub import HfApi, HfFolder, upload_file
@@ -93,7 +97,8 @@ def main():
         token=hf_token
     )
 
-    print(f" Model uploaded to Hugging Face Model Hub: {MODEL_REPO}")
+    print(f"Model uploaded to Hugging Face Model Hub: {MODEL_REPO}")
 
 if __name__ == "__main__":
     main()
+
