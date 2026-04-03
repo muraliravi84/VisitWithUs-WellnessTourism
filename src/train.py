@@ -64,6 +64,17 @@ def main():
     }
     print(f" Evaluation: {metrics}")
 
+  # Log experiment parameters and metrics
+    experiment_log = {
+        "model": "RandomForestClassifier",
+        "parameters": rf_params,
+        "metrics": metrics
+    }
+    os.makedirs("logs", exist_ok=True)
+    with open("logs/experiment_log.json", "w") as f:
+        json.dump(experiment_log, f, indent=4)
+    print("Experiment parameters and metrics logged to logs/experiment_log.json") 
+
     # Save best model locally
     os.makedirs("models", exist_ok=True)
     joblib.dump(model, "models/random_forest.pkl")
